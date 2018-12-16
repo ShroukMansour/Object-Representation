@@ -48,7 +48,7 @@ class MPP:
 mpp = MPP()
 mppVert=MPPVertices()
 # returns an array of points, make sure it's clockwise or anticlock wise as you need
-BW_points = mpp.get_BW_points('leaf.png', 32, 32)
+BW_points = mpp.get_BW_points('leaf.png', 2, 2)
 mppPoints=mppVert.Is_vertix(BW_points)
 #print(mppPoints)
 mpp.DrawMPP('leaf.png',mppPoints)
