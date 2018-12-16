@@ -37,19 +37,42 @@ class MPP:
         contour = np.expand_dims(contour, 1)
         pts = contour.reshape((-1, 1, 2))
         cv2.polylines(mask, [pts], True, (255, 255, 255))
-        plt.figure(figsize=(13, 13))
-        plt.imshow(mask, cmap='gray'), plt.title(str(v))
-        plt.xticks([]), plt.yticks([])
-        plt.show()
-        return img
+        # plt.figure(figsize=(13, 13))
+        # plt.imshow(mask, cmap='gray'), plt.title(str(v))
+        # plt.xticks([]), plt.yticks([])
+        # plt.show()
+        return mask, v
 
 
 
-mpp = MPP()
-mppVert=MPPVertices()
-# returns an array of points, make sure it's clockwise or anticlock wise as you need
-BW_points = mpp.get_BW_points('leaf.png',2,2)
-mppPoints=mppVert.Is_vertix(BW_points)
-#print(mppPoints)
-mpp.DrawMPP('leaf.png',mppPoints)
-print("end of code")
+def mpp(path, block_size):
+    mpp = MPP()
+    mppVert = MPPVertices()
+    # returns an array of points, make sure it's clockwise or anticlock wise as you need
+    BW_points = mpp.get_BW_points(path, block_size, block_size)
+    mppPoints = mppVert.Is_vertix(BW_points)
+    mask, v = mpp.DrawMPP(path, mppPoints)
+    return np.array(mask), np.array(v)
+
+
+img_2, v_2 = mpp('leaf.png', 2)
+img_5, v_5 = mpp('leaf.png', 5)
+img_10, v_10 = mpp('leaf.png', 10)
+img_20, v_20 = mpp('leaf.png', 20)
+img_32, v_32 = mpp('leaf.png', 32)
+img_64, v_64= mpp('leaf.png', 64)
+
+plt.figure(figsize=(13, 13))
+plt.subplot(231), plt.imshow(img_2, cmap='gray'), plt.title(str(v_2))
+plt.xticks([]), plt.yticks([])
+plt.subplot(232), plt.imshow(img_5, cmap='gray'), plt.title(str(v_5))
+plt.xticks([]), plt.yticks([])
+plt.subplot(233), plt.imshow(img_10, cmap='gray'), plt.title(str(v_10))
+plt.xticks([]), plt.yticks([])
+plt.subplot(234), plt.imshow(img_20, cmap='gray'), plt.title(str(v_20))
+plt.xticks([]), plt.yticks([])
+plt.subplot(235), plt.imshow(img_32, cmap='gray'), plt.title(str(v_32))
+plt.xticks([]), plt.yticks([])
+plt.subplot(236), plt.imshow(img_64, cmap='gray'), plt.title(str(v_64))
+plt.xticks([]), plt.yticks([])
+plt.show()
